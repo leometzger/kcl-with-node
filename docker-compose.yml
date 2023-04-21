@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  kinesis:
+    build: .
+    container_name: kinesis-kcl
+    volumes:
+      - ./index.js:/app/index.js
+      - ./src:/app/src
+    secrets:
+      - source: aws_credentials
+        target: /root/.aws/credentials
+        uid: '1000'
+        gid: '1000'
+        mode: 0700
+      - source: aws_config
+        target: /root/.aws/config
+        uid: '1000'
+        gid: '1000'
+        mode: 0700
+
+volumes:
+  localstack:
+
+networks:
+  sample-network:
+
+secrets:
+   aws_credentials:
+     file: $HOME/.aws/credentials
+   aws_config:
+     file: $HOME/.aws/config
